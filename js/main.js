@@ -1,106 +1,83 @@
-const DESCRIPTION = [
-  'Закат',
-  'Цветы',
-  'Море',
-  'Горы',
-  'Дружба',
-  'Дети',
-  'Лес',
-  'Город',
-  'Еда',
-  'Зима',
-  'Путешествие',
-  'Парк',
-  'Автомобиль',
-  'Пляж',
-  'Животные',
-  'Архитектура',
-  'Граффити',
-  'Семья',
-  'Музыка',
-  'Спорт',
-  'Дождь',
-  'Кофе',
-  'Небоскреб',
-  'Заброшенное',
-  'Вечеринка'
+const COUNT_PHOTOS = 25;
+
+const DESCRIPTIONS = [
+  'Закат', 'Цветы', 'Море', 'Горы', 'Дружба', 'Дети', 'Лес', 'Город',
+  'Еда', 'Зима', 'Путешествие', 'Парк', 'Автомобиль', 'Пляж', 'Животные', 'Архитектура',
+  'Граффити', 'Семья', 'Музыка', 'Спорт', 'Дождь', 'Кофе', 'Небоскреб', 'Заброшенное', 'Вечеринка'
 ];
 
 
 const SENTENCES = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+  ['Всё отлично!'],
+  ['Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.'],
+  ['В целом всё неплохо. Но не всё.'],
+  ['Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.'],
+  ['Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.'],
+  ['Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!']
 ];
 
-const AUTHORNAME = [
-  'Чехов', 'Пушкин', 'Лермонтов'
-];
+const AUTHOR_NAME = ['Чехов', 'Пушкин', 'Лермонтов', 'Державин', 'Булгаков'];
 
-const getRandomInt = (minNum, maxNum) => {
+const AvatarId = {
+  MIN : 1,
+  MAX : 6,
+};
+
+const MessagesCount = {
+  MIN : 1,
+  MAX : 2,
+};
+
+const CommentsCount = {
+  MIN : 0,
+  MAX : 30,
+};
+
+const LikesCount = {
+  MIN : 15,
+  MAX : 200,
+};
+
+const shuffle = (arr) => {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+};
+
+const getRandomIntFromInterval = (minNum, maxNum) => {
   minNum = Math.ceil(Math.min(minNum, maxNum));
   maxNum = Math.floor(Math.max(minNum, maxNum));
   return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 };
 
-
-const getNonRepeatingRandomInt = (minNum, maxNum) => {
-  const passedNumbers = [];
-  return function(){
-    let currentNumber = getRandomInt(minNum, maxNum);
-    while (passedNumbers.includes(currentNumber)){
-      currentNumber = getRandomInt(minNum, maxNum);
-    }
-    passedNumbers.push(currentNumber);
-    return currentNumber;
-  };
-};
-
-
-const recieveCommentMessage = (messageCount) => {
-  if (messageCount > 1) {
-    const messageSentenceId = getNonRepeatingRandomInt(0, 5);
-    return `${SENTENCES[messageSentenceId()]} ||| ${SENTENCES[messageSentenceId()]}`;
-  }
-  return `${SENTENCES[getRandomInt(0, 5)]}`;
-};
-
-
-const generateComments = (amount) => {
-  const objectArray = [];
-  const commentIdGenerator = getNonRepeatingRandomInt(0,1000);
-  for (let i = 0; i < amount; i++){
-    const obj = {
-      id : commentIdGenerator(),
-      avatar : `img/avatar-${getRandomInt(1,6)}.svg`,
-      message : recieveCommentMessage(getRandomInt(1,2)),
-      name : AUTHORNAME[getRandomInt(0,AUTHORNAME.length-1)]
-    };
-    objectArray.push(obj);
-  }
-  return objectArray;
-};
-
-
-/*Хорошая ли это практика создавать вот так через const????*/
-const idGenerator = getNonRepeatingRandomInt(1,25);
-const urlIdGenerator = getNonRepeatingRandomInt(1,25);
-const descriptionIdGenerator = getNonRepeatingRandomInt(0,24);
-/*Хорошая ли это практика создавать вот так через const????*/
-
-
-const createObject = () => ({
-  id : idGenerator(),
-  url : `photos/${urlIdGenerator()}.jpg`,
-  description : DESCRIPTION[descriptionIdGenerator()],
-  likes : getRandomInt(15,199),
-  comments : generateComments(getRandomInt(0,29))
+const getComment = (_, id) => ({
+  id,
+  avatar : `img/avatar-${getRandomIntFromInterval(
+    AvatarId.MIN,
+    AvatarId.MAX
+  )}.svg`,
+  message : (shuffle(SENTENCES)).slice(0, getRandomIntFromInterval(MessagesCount.MIN, MessagesCount.MAX)),
+  name : AUTHOR_NAME[getRandomIntFromInterval(0,AUTHOR_NAME.length - 1)],
 });
 
+const getPhotoData = (_, id) => ({
+  id : id + 1,
+  url : `photos/${id + 1}.jpg`,
+  description : DESCRIPTIONS[getRandomIntFromInterval(0, DESCRIPTIONS.length - 1)],
+  likes : getRandomIntFromInterval(
+    LikesCount.MIN,
+    LikesCount.MAX
+  ),
+  comments : Array.from({length : getRandomIntFromInterval(
+    CommentsCount.MIN,
+    CommentsCount.MAX
+  )}, getComment),
+});
 
-Array.from({length : 25}, createObject);
+const getPhotos = () => Array.from({length : COUNT_PHOTOS}, getPhotoData);
+
+getPhotos();
 
 
