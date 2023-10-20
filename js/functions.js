@@ -1,3 +1,5 @@
+import { converTimeToSeconds } from './util.js';
+
 const checkStringLength = (inputString, maxLength) => inputString.length <= maxLength;
 
 const isPalindrome = (input) => {
@@ -27,3 +29,17 @@ highlightNumber('а я томат'); //NaN
 highlightNumber(1.5); //15
 
 
+const isMeetInTime = (workTimeStart, workTimeEnd, meetingStart, minutesMeetingDuration) => {
+  const secondsWorkTimeStart = converTimeToSeconds(workTimeStart);
+  const secondsWorkTimeEnd = converTimeToSeconds(workTimeEnd);
+  const secondsMeetingStart = converTimeToSeconds(meetingStart);
+  const meetingDurationInSeconds = minutesMeetingDuration * 60;
+  return secondsMeetingStart + meetingDurationInSeconds >= secondsWorkTimeStart &&
+    secondsMeetingStart + meetingDurationInSeconds <= secondsWorkTimeEnd;
+};
+
+isMeetInTime('08:00', '17:30', '14:00', 90);
+isMeetInTime('8:0', '10:0', '8:0', 120);
+isMeetInTime('08:00', '14:30', '14:00', 90);
+isMeetInTime('14:00', '17:30', '08:0', 90);
+isMeetInTime('8:00', '17:30', '08:00', 900);

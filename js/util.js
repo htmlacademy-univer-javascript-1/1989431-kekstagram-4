@@ -12,4 +12,4 @@ export const getRandomIntFromInterval = (minNum, maxNum) => {
   return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 };
 
-
+export const converTimeToSeconds = (timeStr) => parseInt(timeStr.split(':')[0],10) * 3600 + parseInt(timeStr.split(':')[1],10) * 60;
