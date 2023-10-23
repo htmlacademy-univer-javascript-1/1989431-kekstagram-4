@@ -8,7 +8,6 @@ const DESCRIPTIONS = [
   'Граффити', 'Семья', 'Музыка', 'Спорт', 'Дождь', 'Кофе', 'Небоскреб', 'Заброшенное', 'Вечеринка'
 ];
 
-
 const SENTENCES = [
   ['Всё отлично!'],
   ['Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.'],
@@ -18,7 +17,7 @@ const SENTENCES = [
   ['Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!']
 ];
 
-const authorName = ['Чехов', 'Пушкин', 'Лермонтов', 'Державин', 'Булгаков'];
+const AuthorNames = ['Чехов', 'Пушкин', 'Лермонтов', 'Державин', 'Булгаков'];
 
 const AvatarId = {
   MIN : 1,
@@ -47,7 +46,7 @@ const getComment = (_, id) => ({
     AvatarId.MAX
   )}.svg`,
   message : (shuffle(SENTENCES)).slice(0, getRandomIntFromInterval(MessagesCount.MIN, MessagesCount.MAX)),
-  name : authorName[getRandomIntFromInterval(0,authorName.length - 1)],
+  name : AuthorNames[getRandomIntFromInterval(0,AuthorNames.length - 1)],
 });
 
 const getPhotoData = (_, id) => ({
