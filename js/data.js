@@ -18,7 +18,7 @@ const SENTENCES = [
   ['Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!']
 ];
 
-const AUTHOR_NAME = ['Чехов', 'Пушкин', 'Лермонтов', 'Державин', 'Булгаков'];
+const authorName = ['Чехов', 'Пушкин', 'Лермонтов', 'Державин', 'Булгаков'];
 
 const AvatarId = {
   MIN : 1,
@@ -47,7 +47,7 @@ const getComment = (_, id) => ({
     AvatarId.MAX
   )}.svg`,
   message : (shuffle(SENTENCES)).slice(0, getRandomIntFromInterval(MessagesCount.MIN, MessagesCount.MAX)),
-  name : AUTHOR_NAME[getRandomIntFromInterval(0,AUTHOR_NAME.length - 1)],
+  name : authorName[getRandomIntFromInterval(0,authorName.length - 1)],
 });
 
 const getPhotoData = (_, id) => ({
