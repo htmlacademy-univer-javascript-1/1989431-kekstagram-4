@@ -1,5 +1,3 @@
-import { converTimeToSeconds } from './util.js';
-
 const checkStringLength = (inputString, maxLength) => inputString.length <= maxLength;
 
 const isPalindrome = (input) => {
@@ -28,6 +26,11 @@ highlightNumber('1 кефир, 0.5 батона'); //105
 highlightNumber('а я томат'); //NaN
 highlightNumber(1.5); //15
 
+
+const SECONDS_IN_MINUTE = 60;
+const SECONDS_IN_HOUR = 3600;
+
+const converTimeToSeconds = (timeStr) => parseInt(timeStr.split(':')[0],10) * SECONDS_IN_HOUR + parseInt(timeStr.split(':')[1],10) * SECONDS_IN_MINUTE;
 
 const isMeetInTime = (workTimeStart, workTimeEnd, meetingStart, minutesMeetingDuration) => {
   const secondsWorkTimeStart = converTimeToSeconds(workTimeStart);
