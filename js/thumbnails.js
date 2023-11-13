@@ -1,22 +1,25 @@
-import { getPhotos } from './data.js';
-
 const pictureTemplate = document.querySelector('#picture').content;
 const domPicturesCollection = document.querySelector('.pictures');
 
-const picturesObjects = getPhotos();
+let pictures = null;
 
-const readyPhotosFragment = document.createDocumentFragment();
+export const thumbnailsInit = (data) => {
+  pictures = data.slice();
+  if (pictures){
+    const readyPhotosFragment = document.createDocumentFragment();
 
-picturesObjects.forEach((pictureObj) => {
-  const pictureTemplateClone = pictureTemplate.cloneNode(true);
+    pictures.forEach((picture) => {
+      const pictureTemplateClone = pictureTemplate.cloneNode(true);
 
-  pictureTemplateClone.querySelector('.picture__img').src = pictureObj['url'];
-  pictureTemplateClone.querySelector('.picture__img').alt = pictureObj['description'];
+      pictureTemplateClone.querySelector('.picture__img').src = picture['url'];
+      pictureTemplateClone.querySelector('.picture__img').alt = picture['description'];
 
-  pictureTemplateClone.querySelector('.picture__likes').textContent = pictureObj['likes'];
-  pictureTemplateClone.querySelector('.picture__comments').textContent = pictureObj['comments'].length;
+      pictureTemplateClone.querySelector('.picture__likes').textContent = picture['likes'];
+      pictureTemplateClone.querySelector('.picture__comments').textContent = picture['comments'].length;
 
-  readyPhotosFragment.appendChild(pictureTemplateClone);
-});
+      readyPhotosFragment.appendChild(pictureTemplateClone);
+    });
 
-domPicturesCollection.appendChild(readyPhotosFragment);
+    domPicturesCollection.appendChild(readyPhotosFragment);
+  }
+};
