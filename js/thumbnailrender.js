@@ -3,6 +3,8 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 const bigPicture = document.querySelector('.big-picture');
 
 const bigPictureCloseCross = bigPicture.querySelector('.big-picture__cancel');
+const commentsContainer = bigPicture.querySelector('.social__comments');
+const commentsLoader = document.querySelector('.social__comments-loader');
 
 const onCloseThumbnail = () => {
   // eslint-disable-next-line no-use-before-define
@@ -22,6 +24,8 @@ const closeThumbnail = () => {
 
   document.removeEventListener('keydown', onBigThumbnailKeydown);
   bigPictureCloseCross.removeEventListener('click',onCloseThumbnail);
+  commentsLoader.classList.remove('hidden');
+
 };
 
 const getCommentsTemplate = ({avatar, name, message}) => `
@@ -31,23 +35,56 @@ const getCommentsTemplate = ({avatar, name, message}) => `
             src="${avatar}"
             alt="${name}"
             width="35" height="35">
-        <p class="social__text">${message[0]}</p>
+        <p class="social__text">${message.join(' ')}</p>
     </li>
     `;
+
+
+const updateCommentsCount = (count) => {
+  bigPicture.querySelector('.comments-current-count').textContent = count;
+
+};
+
+
+const setupComments = (pictureById) => {
+  bigPicture.querySelector('.comments-count').textContent = pictureById.comments.length;
+  if (pictureById.comments.length <= 5) {
+    commentsContainer.insertAdjacentHTML('afterbegin', pictureById.comments.map((comment) => getCommentsTemplate(comment)).join(''));
+    updateCommentsCount(pictureById.comments.length);
+    commentsLoader.classList.add('hidden');
+  } else {
+    const firstFiveComments = pictureById.comments.slice(0, 5);
+    commentsContainer.insertAdjacentHTML('afterbegin', firstFiveComments.map((comment) => getCommentsTemplate(comment)).join(''));
+    updateCommentsCount(5);
+    // eslint-disable-next-line no-use-before-define
+    commentsLoader.onclick = () => {showNextFiveComments(pictureById);};
+  }
+};
+
+const showNextFiveComments = (pictureById) => {
+  const currentCommentCount = commentsContainer.children.length;
+
+  const nextFiveComments = pictureById.comments.slice(currentCommentCount, currentCommentCount + 5);
+
+  commentsContainer.insertAdjacentHTML('beforeend', nextFiveComments.map((comment) => getCommentsTemplate(comment)).join(''));
+  updateCommentsCount(commentsContainer.children.length);
+
+  if (currentCommentCount + 5 >= pictureById.comments.length) {
+    commentsLoader.classList.add('hidden');
+  }
+};
 
 export const renderThumbnail = (pictureById) => {
   const bigPictureImg = bigPicture.querySelector('.big-picture__img');
   bigPictureImg.querySelector('img').src = pictureById.url;
 
   bigPicture.querySelector('.likes-count').textContent = pictureById.likes;
-  bigPicture.querySelector('.comments-count').textContent = pictureById.comments.length;
   bigPicture.querySelector('.social__caption').textContent = pictureById.description;
-  bigPicture.querySelector('.social__comments').innerHTML = '';
-  bigPicture.querySelector('.social__comments').insertAdjacentHTML('afterbegin', pictureById.comments.map((comment) => getCommentsTemplate(comment)));
+  commentsContainer.innerHTML = '';
+  setupComments(pictureById);
+
 
   bigPicture.classList.remove('hidden');
-  bigPicture.querySelector('.social__comment-count').classList.add('hidden');
-  bigPicture.querySelector('.comments-loader').classList.add('hidden');
   document.querySelector('body').classList.add('modal-open');
 
   document.addEventListener('keydown', onBigThumbnailKeydown);

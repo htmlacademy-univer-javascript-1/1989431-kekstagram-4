@@ -21,6 +21,7 @@ const onThumbnailsContainerClick = (evt) => {
   if (targetElement){
     const id = targetElement.dataset.id;
     const [pictureById] = pictures.filter((picture) => picture.id === +id);
+
     renderThumbnail(pictureById);
   }
 };
