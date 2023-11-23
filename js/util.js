@@ -12,3 +12,5 @@ export const getRandomIntFromInterval = (minNum, maxNum) => {
   return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 };
 
+export const isEscapeKey = (evt) => evt.key === 'Escape';
+
