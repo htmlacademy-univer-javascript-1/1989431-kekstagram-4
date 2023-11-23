@@ -1,4 +1,4 @@
-import {renderThumbnail} from './thumbnailrender.js';
+import {renderBigPicture} from './picture-render.js';
 
 const domPicturesCollection = document.querySelector('.pictures');
 
@@ -21,7 +21,7 @@ const onThumbnailsContainerClick = (evt) => {
   if (targetElement){
     const id = targetElement.dataset.id;
     const [pictureById] = pictures.filter((picture) => picture.id === +id);
-    renderThumbnail(pictureById);
+    renderBigPicture(pictureById);
   }
 };
 
