@@ -7,13 +7,14 @@ const commentsLoader = document.querySelector('.social__comments-loader');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img');
 const commentsCount = bigPicture.querySelector('.comments-count');
 const commentsCurrentCount = bigPicture.querySelector('.comments-current-count');
+const likesCount = bigPicture.querySelector('.likes-count');
+const socialCaption = bigPicture.querySelector('.social__caption');
 
-
-const onClosePopup = () => {
+const OnClosePopup = () => {
   closePopup();
 };
 
-const onPopupKeydown = (evt) => {
+const OnPopupKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closePopup();
@@ -24,7 +25,7 @@ function closePopup (){
   document.querySelector('body').classList.remove('modal-open');
   bigPicture.classList.add('hidden');
 
-  bigPictureCloseCross.removeEventListener('click',onPopupKeydown);
+  bigPictureCloseCross.removeEventListener('click',OnPopupKeydown);
   commentsLoader.classList.remove('hidden');
 }
 
@@ -76,8 +77,8 @@ function showNextFiveComments (pictureById) {
 const renderMainData = (pictureById) => {
   bigPictureImg.querySelector('img').src = pictureById.url;
 
-  bigPicture.querySelector('.likes-count').textContent = pictureById.likes;
-  bigPicture.querySelector('.social__caption').textContent = pictureById.description;
+  likesCount.textContent = pictureById.likes;
+  socialCaption.textContent = pictureById.description;
 };
 
 
@@ -89,6 +90,6 @@ export const renderBigPicture = (pictureById) => {
   bigPicture.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
 
-  document.addEventListener('keydown', onPopupKeydown);
-  bigPictureCloseCross.addEventListener('click', onClosePopup);
+  document.addEventListener('keydown', OnClosePopup);
+  bigPictureCloseCross.addEventListener('click', OnClosePopup);
 };
