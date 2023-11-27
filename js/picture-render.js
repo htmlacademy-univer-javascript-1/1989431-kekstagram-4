@@ -26,6 +26,7 @@ function closePopup (){
   bigPicture.classList.add('hidden');
 
   bigPictureCloseCross.removeEventListener('click',OnPopupKeydown);
+  document.addEventListener('keydown', OnClosePopup);
   commentsLoader.classList.remove('hidden');
 }
 
