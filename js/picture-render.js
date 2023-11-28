@@ -9,12 +9,15 @@ const commentsCount = bigPicture.querySelector('.comments-count');
 const commentsCurrentCount = bigPicture.querySelector('.comments-current-count');
 const likesCount = bigPicture.querySelector('.likes-count');
 const socialCaption = bigPicture.querySelector('.social__caption');
+const COMMENTS_ADD_STEP = 5;
+let pictureByIdComments;
 
-const OnClosePopup = () => {
+
+const onPopupClose = () => {
   closePopup();
 };
 
-const OnPopupKeydown = (evt) => {
+const onPopupKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closePopup();
@@ -25,8 +28,9 @@ function closePopup (){
   document.querySelector('body').classList.remove('modal-open');
   bigPicture.classList.add('hidden');
 
-  bigPictureCloseCross.removeEventListener('click',OnPopupKeydown);
-  document.addEventListener('keydown', OnClosePopup);
+  bigPictureCloseCross.removeEventListener('click',onPopupKeydown);
+  commentsLoader.removeEventListener('click', () => {showNextFiveComments();});
+  document.removeEventListener('keydown', onPopupClose);
   commentsLoader.classList.remove('hidden');
 }
 
@@ -49,28 +53,29 @@ const updateCommentsCount = (count) => {
 
 
 const setupComments = (pictureById) => {
-  commentsCount.textContent = pictureById.comments.length;
-  if (pictureById.comments.length <= 5) {
-    commentsContainer.insertAdjacentHTML('afterbegin', pictureById.comments.map((comment) => getCommentTemplate(comment)).join(''));
-    updateCommentsCount(pictureById.comments.length);
+  pictureByIdComments = pictureById.comments;
+  commentsCount.textContent = pictureByIdComments.length;
+  if (pictureByIdComments.length <= COMMENTS_ADD_STEP) {
+    commentsContainer.insertAdjacentHTML('afterbegin', pictureByIdComments.map((comment) => getCommentTemplate(comment)).join(''));
+    updateCommentsCount(pictureByIdComments.length);
     commentsLoader.classList.add('hidden');
   } else {
-    const firstFiveComments = pictureById.comments.slice(0, 5);
+    const firstFiveComments = pictureByIdComments.slice(0, COMMENTS_ADD_STEP);
     commentsContainer.insertAdjacentHTML('afterbegin', firstFiveComments.map((comment) => getCommentTemplate(comment)).join(''));
     updateCommentsCount(5);
-    commentsLoader.onclick = () => {showNextFiveComments(pictureById);};
+    commentsLoader.addEventListener('click', () => {showNextFiveComments();});
   }
 };
 
-function showNextFiveComments (pictureById) {
+function showNextFiveComments () {
   const currentCommentCount = commentsContainer.children.length;
 
-  const nextFiveComments = pictureById.comments.slice(currentCommentCount, currentCommentCount + 5);
+  const nextFiveComments = pictureByIdComments.slice(currentCommentCount, currentCommentCount + 5);
 
   commentsContainer.insertAdjacentHTML('beforeend', nextFiveComments.map((comment) => getCommentTemplate(comment)).join(''));
   updateCommentsCount(commentsContainer.children.length);
 
-  if (currentCommentCount + 5 >= pictureById.comments.length) {
+  if (currentCommentCount + 5 >= pictureByIdComments.length) {
     commentsLoader.classList.add('hidden');
   }
 }
@@ -91,6 +96,6 @@ export const renderBigPicture = (pictureById) => {
   bigPicture.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
 
-  document.addEventListener('keydown', OnClosePopup);
-  bigPictureCloseCross.addEventListener('click', OnClosePopup);
+  document.addEventListener('keydown', onPopupClose);
+  bigPictureCloseCross.addEventListener('click', onPopupClose);
 };
