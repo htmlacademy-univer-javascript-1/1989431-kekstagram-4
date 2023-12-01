@@ -2,27 +2,42 @@ import {isEscapeKey} from './util.js';
 import {setupPictureScale} from './form-picture-scale.js';
 import {editEffect} from './form-picture-effects.js';
 
+const validHashtag = /^#[a-zа-яё0-9]{1,19}$/i;
+const patternWithSpaces = /(?:^|\s)(#[a-zа-яё0-9]{1,19})(?=\s|$)/gi;
+const MAX_HASHTAG_LENGTH = 5;
 const uploadInput = document.querySelector('.img-upload__input');
 const overlayElement = document.querySelector('.img-upload__overlay');
 const bodyElement = document.body;
 const cancelBtn = document.querySelector('.img-upload__cancel');
-const hashtagTemplate = /^#[a-zа-яё0-9]{1,19}$/i;
 const hashtagsInput = document.querySelector('.text__hashtags');
+const commentsInput = document.querySelector('.text__description');
 const form = document.querySelector('.img-upload__form');
 
+const onInputElementEscPress = (evt) => {
+  const activeElement = document.activeElement;
+  const isInput = activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA';
+  if (isEscapeKey(evt) && isInput) {
+    evt.stopPropagation();
+    activeElement.blur();
+  }
+};
 
 const closeUploadForm = () => {
   overlayElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   cancelBtn.removeEventListener('click', closeUploadForm);
   document.removeEventListener('keydown', handleKeyDown);
+  form.removeEventListener('keydown', onInputElementEscPress);
   uploadInput.value = '';
+  hashtagsInput.value = '';
+  commentsInput.value = '';
 };
 
 
 uploadInput.addEventListener('change', () => {
   overlayElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
+  form.addEventListener('keydown', onInputElementEscPress);
   setupPictureScale();
   editEffect();
   cancelBtn.addEventListener('click', closeUploadForm);
@@ -30,28 +45,34 @@ uploadInput.addEventListener('change', () => {
 });
 
 
-const validateHashtags = () => {
-  console.log('Зашли прям внутрь');
-  console.log(hashtagsInput.value);
-  // const uniqueHashtags = new Set(hashtagsInput);
-  // const hashtagsArray = Array.from(uniqueHashtags);
+const validateHashtagsLength = (hashtagString) => hashtagString.split(' ').length <= MAX_HASHTAG_LENGTH;
 
-  // if (hashtagsArray.length > 5) {
-  //   return false;
-  // }
-
-  // for (const hashtag of hashtagsArray) {
-  //   if (!hashtagTemplate.test(hashtag) || hashtag.length > 20 || hashtag === '#') {
-  //     return false;
-  //   }
-  // }
-
-  return false;
+const validateHashtagUniqness = (hashtagString) => {
+  const hashtagsArray = hashtagString.toLowerCase().split(' ');
+  return hashtagsArray.length === new Set(hashtagsArray).size;
 };
 
+const validateHashtagFormat = (hashtagString) => {
+  if (hashtagString === '') {
+    return true;
+  }
+
+  if (hashtagString === '#') {
+    return false;
+  }
+  const hashtagCount = hashtagString.split('#').length - 1;
+
+  if (hashtagCount === 1) {
+    return validHashtag.test(hashtagString);
+  }
+
+  return patternWithSpaces.test(hashtagString);
+};
+
+
+const validateComments = (commentsString) => commentsString.length <= 140;
+
 const validateForm = () => {
-  console.log('Зашли валидировать');
-  console.log(hashtagsInput.value);
   const pristine = new Pristine(
     form,
     {
@@ -59,15 +80,20 @@ const validateForm = () => {
       errorTextParent : 'img-upload__field-wrapper',
       errorTextClass : 'img-upload__field-wrapper__error'
     });
-  pristine.addValidator(hashtagsInput, validateHashtags,'Хештеги должны быть уникальны, длиной менее 20 символов, должен быть пробел между ними');
+  pristine.addValidator(hashtagsInput, validateHashtagsLength,'Нельзя указывать больше 5 хештегов');
+  pristine.addValidator(hashtagsInput, validateHashtagUniqness,'Хештеги не должны повторяться');
+  pristine.addValidator(hashtagsInput, validateHashtagFormat,'Невалидный формат хештега');
+  pristine.addValidator(commentsInput, validateComments, 'Длина комментария должна быть меньше 140 символов');
+
   return pristine.validate();
 };
 
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  console.log(validateForm());
-})
+  validateForm();
+});
+
 
 function handleKeyDown(evt) {
   if (isEscapeKey(evt)) {
