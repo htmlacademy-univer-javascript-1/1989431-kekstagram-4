@@ -1,4 +1,4 @@
-import {isEscapeKey} from './util.js';
+import {isEscapeKey, isPicture} from './util.js';
 
 
 let pristineValidator;
@@ -101,8 +101,10 @@ function validateForm (evt){
 }
 
 
-const onInputUploadElementChange = () => {
-  openUploadForm();
+const onInputUploadElementChange = (evt) => {
+  if (isPicture(evt)){
+    openUploadForm();
+  }
 };
 
 export const initEditPopup = () => {
