@@ -1,13 +1,11 @@
 import {isEscapeKey} from './util.js';
-// import {setupPictureScale} from './form-picture-scale.js';
-// import {editEffect} from './form-picture-effects.js';
 
 
-const bodyElement = document.querySelector('.body');
 let pristineValidator;
+const MAX_HASHTAG_LENGTH = 5;
 const ONE_VALID_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
 const MULTIPLE_VALID_HASHTAGS = /(?:^|\s)(#[a-zа-яё0-9]{1,19})(?=\s|$)/gi;
-const MAX_HASHTAG_LENGTH = 5;
+const bodyElement = document.querySelector('.body');
 const inputUploadElement = bodyElement.querySelector('.img-upload__input');
 const overlayElement = bodyElement.querySelector('.img-upload__overlay');
 const cancelBtn = bodyElement.querySelector('.img-upload__cancel');
