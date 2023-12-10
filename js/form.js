@@ -1,17 +1,16 @@
 import {isEscapeKey, isPicture} from './util.js';
 
-
-let pristineValidator;
-const MAX_HASHTAG_LENGTH = 5;
-const ONE_VALID_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
-const MULTIPLE_VALID_HASHTAGS = /(?:^|\s)(#[a-zа-яё0-9]{1,19})(?=\s|$)/gi;
 const bodyElement = document.querySelector('.body');
 const inputUploadElement = bodyElement.querySelector('.img-upload__input');
 const overlayElement = bodyElement.querySelector('.img-upload__overlay');
 const cancelBtn = bodyElement.querySelector('.img-upload__cancel');
 const hashtagsInput = bodyElement.querySelector('.text__hashtags');
 const commentsInput = bodyElement.querySelector('.text__description');
-const form = bodyElement.querySelector('.img-upload__form');
+const imgUploadForm = bodyElement.querySelector('.img-upload__form');
+const MAX_HASHTAG_LENGTH = 5;
+const ONE_VALID_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
+const MULTIPLE_VALID_HASHTAGS = /(?:^|\s)(#[a-zа-яё0-9]{1,19})(?=\s|$)/gi;
+let pristineValidator;
 
 const onInputEscKeydown = (evt) => {
   const activeElement = document.activeElement;
@@ -25,12 +24,11 @@ const onInputEscKeydown = (evt) => {
 const openUploadForm = () => {
   overlayElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-  form.addEventListener('keydown', onInputEscKeydown);
+  imgUploadForm.addEventListener('keydown', onInputEscKeydown);
   cancelBtn.addEventListener('click', closeUploadForm);
   document.addEventListener('keydown', handleKeyDown);
-  form.addEventListener('submit', validateForm);
+  imgUploadForm.addEventListener('submit', validateForm);
 };
-
 
 const clearInputs = () => {
   inputUploadElement.value = '';
@@ -44,8 +42,8 @@ function closeUploadForm (){
   bodyElement.classList.remove('modal-open');
   cancelBtn.removeEventListener('click', closeUploadForm);
   document.removeEventListener('keydown', handleKeyDown);
-  form.removeEventListener('keydown', onInputEscKeydown);
-  form.removeEventListener('submit', validateForm);
+  imgUploadForm.removeEventListener('keydown', onInputEscKeydown);
+  imgUploadForm.removeEventListener('submit', validateForm);
   clearInputs();
 }
 
@@ -54,7 +52,6 @@ function handleKeyDown(evt) {
     closeUploadForm();
   }
 }
-
 
 const validateHashtagsLength = (hashtagString) => hashtagString.split(' ').length <= MAX_HASHTAG_LENGTH;
 
@@ -80,13 +77,12 @@ const validateHashtagFormat = (hashtagString) => {
   return MULTIPLE_VALID_HASHTAGS.test(hashtagString);
 };
 
-
 const validateComments = (commentsString) => commentsString.length <= 140;
 
 function validateForm (evt){
   evt.preventDefault();
   pristineValidator = new Pristine(
-    form,
+    imgUploadForm,
     {
       classTo : 'img-upload__field-wrapper',
       errorTextParent : 'img-upload__field-wrapper',
@@ -99,7 +95,6 @@ function validateForm (evt){
 
   return pristineValidator.validate();
 }
-
 
 const onInputUploadElementChange = (evt) => {
   if (isPicture(evt)){
