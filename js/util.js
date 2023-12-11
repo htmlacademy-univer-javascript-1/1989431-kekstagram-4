@@ -14,3 +14,18 @@ export const getRandomIntFromInterval = (minNum, maxNum) => {
 
 export const isEscapeKey = (evt) => evt.key === 'Escape';
 
+
+export const isPicture = (evt) => {
+  const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+  const selectedFile = evt.target.files[0];
+
+  if (!selectedFile) {
+    return false;
+  }
+
+  const fileName = selectedFile.name;
+  const fileExtension = fileName.split('.').pop().toLowerCase();
+
+  return allowedExtensions.includes(fileExtension);
+};
