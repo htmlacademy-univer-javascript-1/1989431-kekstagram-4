@@ -1,5 +1,10 @@
 import {isEscapeKey, isPicture} from './util.js';
+import { initScale, resetScale } from './picture-scale.js';
+import {destroySlider, initSlider} from './picture-effects.js';
 
+const MAX_HASHTAG_LENGTH = 5;
+const ONE_VALID_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
+const MULTIPLE_VALID_HASHTAGS = /(?:^|\s)(#[a-zа-яё0-9]{1,19})(?=\s|$)/gi;
 const bodyElement = document.querySelector('.body');
 const inputUploadElement = bodyElement.querySelector('.img-upload__input');
 const overlayElement = bodyElement.querySelector('.img-upload__overlay');
@@ -7,9 +12,6 @@ const cancelBtn = bodyElement.querySelector('.img-upload__cancel');
 const hashtagsInput = bodyElement.querySelector('.text__hashtags');
 const commentsInput = bodyElement.querySelector('.text__description');
 const imgUploadForm = bodyElement.querySelector('.img-upload__form');
-const MAX_HASHTAG_LENGTH = 5;
-const ONE_VALID_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
-const MULTIPLE_VALID_HASHTAGS = /(?:^|\s)(#[a-zа-яё0-9]{1,19})(?=\s|$)/gi;
 let pristineValidator;
 
 const onInputEscKeydown = (evt) => {
@@ -34,7 +36,7 @@ const clearInputs = () => {
   inputUploadElement.value = '';
   hashtagsInput.value = '';
   commentsInput.value = '';
-  pristineValidator.reset();
+  if (pristineValidator){pristineValidator.reset();}
 };
 
 function closeUploadForm (){
@@ -45,6 +47,8 @@ function closeUploadForm (){
   imgUploadForm.removeEventListener('keydown', onInputEscKeydown);
   imgUploadForm.removeEventListener('submit', validateForm);
   clearInputs();
+  resetScale();
+  destroySlider();
 }
 
 function handleKeyDown(evt) {
@@ -99,6 +103,8 @@ function validateForm (evt){
 const onInputUploadElementChange = (evt) => {
   if (isPicture(evt)){
     openUploadForm();
+    initScale();
+    initSlider();
   }
 };
 
