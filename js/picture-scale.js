@@ -1,37 +1,38 @@
-const scaleControlValue = document.querySelector('.scale__control--value');
-const uploadImage = document.querySelector('.img-upload__preview').querySelector('img');
-const smallerScaleButton = document.querySelector('.scale__control--smaller');
-const biggerScaleButton = document.querySelector('.scale__control--bigger');
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
+const SCALE_STEP = 25;
+const bodyElement = document.querySelector('.body');
+const scaleControlValue = bodyElement.querySelector('.scale__control--value');
+const uploadImage = bodyElement.querySelector('.img-upload__preview').querySelector('img');
+const smallerScaleButton = bodyElement.querySelector('.scale__control--smaller');
+const biggerScaleButton = bodyElement.querySelector('.scale__control--bigger');
 
-let currentScale = 100;
-
+let currentScale = MAX_SCALE;
 
 const updateScaleStyles = () => {
-  const scaleValue = currentScale / 100;
+  const scaleValue = currentScale / MAX_SCALE;
   uploadImage.style.transform = `scale(${scaleValue})`;
 };
 
-
-const OnSmallerScaleButtonClick = () => {
-  if (currentScale > 25) {
-    currentScale -= 25;
+const onSmallerScaleButtonClick = () => {
+  if (currentScale > MIN_SCALE) {
+    currentScale -= SCALE_STEP;
     scaleControlValue.value = `${currentScale}%`;
     updateScaleStyles();
   }
 };
 
-const OnBiggerScaleButtonClick = () => {
-  if (currentScale < 100) {
-    currentScale += 25;
+const onBiggerScaleButtonClick = () => {
+  if (currentScale < MAX_SCALE) {
+    currentScale += SCALE_STEP;
     scaleControlValue.value = `${currentScale}%`;
     updateScaleStyles();
   }
 };
-
 
 const onScaleControlValueInput = () => {
   const inputValue = parseInt(scaleControlValue.value, 10);
-  if (!isNaN(inputValue) && inputValue >= 25 && inputValue <= 100) {
+  if (!isNaN(inputValue) && inputValue >= MIN_SCALE && inputValue <= MAX_SCALE) {
     currentScale = inputValue;
     updateScaleStyles();
   }
@@ -39,15 +40,14 @@ const onScaleControlValueInput = () => {
 
 export const initScale = () => {
   scaleControlValue.value = `${currentScale}%`;
-  smallerScaleButton.addEventListener('click', OnSmallerScaleButtonClick);
-  biggerScaleButton.addEventListener('click', OnBiggerScaleButtonClick);
+  smallerScaleButton.addEventListener('click', onSmallerScaleButtonClick);
+  biggerScaleButton.addEventListener('click', onBiggerScaleButtonClick);
   scaleControlValue.addEventListener('input', onScaleControlValueInput);
 };
 
 export const resetScale = () => {
-  currentScale = 100;
-  smallerScaleButton.removeEventListener('click', OnSmallerScaleButtonClick);
-  biggerScaleButton.removeEventListener('click', OnBiggerScaleButtonClick);
+  currentScale = MAX_SCALE;
+  smallerScaleButton.removeEventListener('click', onSmallerScaleButtonClick);
+  biggerScaleButton.removeEventListener('click', onBiggerScaleButtonClick);
   scaleControlValue.removeEventListener('input', onScaleControlValueInput);
 };
-

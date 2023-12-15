@@ -1,4 +1,4 @@
-import { PICTURE_EFFECTS_PARAMS } from './util.js';
+import { PICTURE_EFFECT_PARAMS } from './util.js';
 
 const bodyElement = document.querySelector('.body');
 const effectSliderWrap = bodyElement.querySelector('.img-upload__effect-level');
@@ -13,18 +13,18 @@ const resetFilterValue = () => {
   effectSliderWrap.classList.add('hidden');
 };
 
-const onEffectsClick = (evt) => {
+const onEffectClick = (evt) => {
   const effect = evt.target.value;
   if (effect === 'none'){
     resetFilterValue();
-  } else{
+  } else {
     uploadImage.removeAttribute('class');
     uploadImage.classList.add(`effects__preview--${effect}`);
     effectSliderWrap.classList.remove('hidden');
-    effectLevelSlider.noUiSlider.updateOptions(PICTURE_EFFECTS_PARAMS[effect].options);
+    effectLevelSlider.noUiSlider.updateOptions(PICTURE_EFFECT_PARAMS[effect].options);
     effectLevelSlider.noUiSlider.on('update', () => {
       effectLevelValue.value = effectLevelSlider.noUiSlider.get();
-      uploadImage.style.filter = `${PICTURE_EFFECTS_PARAMS[effect].filter}(${effectLevelValue.value}${PICTURE_EFFECTS_PARAMS[effect].units})`;
+      uploadImage.style.filter = `${PICTURE_EFFECT_PARAMS[effect].filter}(${effectLevelValue.value}${PICTURE_EFFECT_PARAMS[effect].units})`;
     });
   }
 };
@@ -39,8 +39,8 @@ export const initSlider = () => {
       max: 100
     }
   });
-  effectsListItems.forEach((item) => {
-    item.addEventListener('click', onEffectsClick);
+  effectsListItems.forEach((effect) => {
+    effect.addEventListener('click', onEffectClick);
   });
 };
 
@@ -49,8 +49,8 @@ export const destroySlider = () => {
     effectLevelSlider.noUiSlider.destroy();
   }
 
-  effectsListItems.forEach((item) => {
-    item.removeEventListener('click', onEffectsClick);
+  effectsListItems.forEach((effect) => {
+    effect.removeEventListener('click', onEffectClick);
   });
 };
 

@@ -28,8 +28,8 @@ const openUploadForm = () => {
   bodyElement.classList.add('modal-open');
   imgUploadForm.addEventListener('keydown', onInputEscKeydown);
   cancelBtn.addEventListener('click', closeUploadForm);
-  document.addEventListener('keydown', handleKeyDown);
-  imgUploadForm.addEventListener('submit', validateForm);
+  document.addEventListener('keydown', onHandleKeyDown);
+  imgUploadForm.addEventListener('submit', onFormValidate);
 };
 
 const clearInputs = () => {
@@ -43,15 +43,15 @@ function closeUploadForm (){
   overlayElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   cancelBtn.removeEventListener('click', closeUploadForm);
-  document.removeEventListener('keydown', handleKeyDown);
+  document.removeEventListener('keydown', onHandleKeyDown);
   imgUploadForm.removeEventListener('keydown', onInputEscKeydown);
-  imgUploadForm.removeEventListener('submit', validateForm);
+  imgUploadForm.removeEventListener('submit', onFormValidate);
   clearInputs();
   resetScale();
   destroySlider();
 }
 
-function handleKeyDown(evt) {
+function onHandleKeyDown(evt) {
   if (isEscapeKey(evt)) {
     closeUploadForm();
   }
@@ -83,7 +83,7 @@ const validateHashtagFormat = (hashtagString) => {
 
 const validateComments = (commentsString) => commentsString.length <= 140;
 
-function validateForm (evt){
+function onFormValidate (evt){
   evt.preventDefault();
   pristineValidator = new Pristine(
     imgUploadForm,
