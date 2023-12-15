@@ -30,7 +30,7 @@ export const isPicture = (evt) => {
   return allowedExtensions.includes(fileExtension);
 };
 
-export const PICTURE_EFFECT_PARAMS = {
+export const FilterParameter = {
   'none' : {name : 'none', filter : '', units : '',
     options : {range : {min : 0, max : 100}, step : 1, start : 100}},
   'chrome' : {name : 'chrome', filter : 'grayscale', units : '',

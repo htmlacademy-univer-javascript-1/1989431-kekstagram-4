@@ -1,4 +1,4 @@
-import { PICTURE_EFFECT_PARAMS } from './util.js';
+import { FilterParameter } from './util.js';
 
 const bodyElement = document.querySelector('.body');
 const effectSliderWrap = bodyElement.querySelector('.img-upload__effect-level');
@@ -21,10 +21,10 @@ const onEffectClick = (evt) => {
     uploadImage.removeAttribute('class');
     uploadImage.classList.add(`effects__preview--${effect}`);
     effectSliderWrap.classList.remove('hidden');
-    effectLevelSlider.noUiSlider.updateOptions(PICTURE_EFFECT_PARAMS[effect].options);
+    effectLevelSlider.noUiSlider.updateOptions(FilterParameter[effect].options);
     effectLevelSlider.noUiSlider.on('update', () => {
       effectLevelValue.value = effectLevelSlider.noUiSlider.get();
-      uploadImage.style.filter = `${PICTURE_EFFECT_PARAMS[effect].filter}(${effectLevelValue.value}${PICTURE_EFFECT_PARAMS[effect].units})`;
+      uploadImage.style.filter = `${FilterParameter[effect].filter}(${effectLevelValue.value}${FilterParameter[effect].units})`;
     });
   }
 };
