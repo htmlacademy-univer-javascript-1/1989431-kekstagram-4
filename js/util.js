@@ -47,7 +47,6 @@ export const FilterParameter = {
     options : {range : {min : 1, max : 3}, step : 0.1, start : 3}},
 };
 
-
 export const createUploadErrorMessage = (err) => {
   const uploadErrorMessage = document.createElement('div');
   uploadErrorMessage.style.position = 'absolute';

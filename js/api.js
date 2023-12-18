@@ -1,4 +1,4 @@
-import {getPhotos} from './data.js';
+import { getPhotos } from './data.js';
 import { initEditPopup } from './form.js';
 import {thumbnailsInit} from './thumbnails.js';
 import { createUploadErrorMessage } from './util.js';
