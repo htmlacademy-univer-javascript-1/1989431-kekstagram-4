@@ -1,3 +1,5 @@
+import { ErrorText } from './api.js';
+
 export const shuffle = (arr) => {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -43,4 +45,21 @@ export const FilterParameter = {
     options : {range : {min : 0, max : 3}, step : 0.1, start : 3}},
   'heat' : {name : 'heat', filter : 'brightness', units : '',
     options : {range : {min : 1, max : 3}, step : 0.1, start : 3}},
+};
+
+
+export const createUploadErrorMessage = (err) => {
+  const uploadErrorMessage = document.createElement('div');
+  uploadErrorMessage.style.position = 'absolute';
+  uploadErrorMessage.style.left = 0;
+  uploadErrorMessage.style.top = 0;
+  uploadErrorMessage.style.width = '60%';
+  uploadErrorMessage.style.marginLeft = '20%';
+  uploadErrorMessage.style.borderRadius = '20px';
+  uploadErrorMessage.style.textAlign = 'center';
+  uploadErrorMessage.style.fontSize = '24px';
+  uploadErrorMessage.style.backgroundColor = 'red';
+  uploadErrorMessage.style.padding = '20px 10px';
+  uploadErrorMessage.textContent = `${ErrorText.GET_DATA} ${err}`;
+  return uploadErrorMessage;
 };
