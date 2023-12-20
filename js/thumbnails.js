@@ -1,11 +1,9 @@
-import {renderBigPicture} from './picture-render.js';
+import { renderBigPicture } from './picture-render.js';
 
 const domPicturesCollection = document.querySelector('.pictures');
 
-
 let pictures = null;
 const PICTURE_SELECTOR = '.picture';
-
 
 const getPictureTemplate = ({id, url, likes, comments}) => `<a href="#" data-id = ${id} class="picture">
   <img class="picture__img" src="${url}" width="182" height="182" alt="Случайная фотография">
@@ -14,7 +12,6 @@ const getPictureTemplate = ({id, url, likes, comments}) => `<a href="#" data-id 
       <span class="picture__likes">${likes}</span>
     </p>
 </a>`;
-
 
 const onThumbnailsContainerClick = (evt) => {
   const targetElement = evt.target.closest(PICTURE_SELECTOR);
@@ -32,4 +29,3 @@ export const thumbnailsInit = (data) => {
     domPicturesCollection.addEventListener('click', onThumbnailsContainerClick);
   }
 };
-

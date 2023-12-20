@@ -1,7 +1,8 @@
+import { bodyElement } from './util.js';
+
 const MIN_SCALE = 25;
 const MAX_SCALE = 100;
 const SCALE_STEP = 25;
-const bodyElement = document.querySelector('.body');
 const scaleControlValue = bodyElement.querySelector('.scale__control--value');
 const uploadImage = bodyElement.querySelector('.img-upload__preview').querySelector('img');
 const smallerScaleButton = bodyElement.querySelector('.scale__control--smaller');

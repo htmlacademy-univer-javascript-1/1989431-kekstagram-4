@@ -1,9 +1,11 @@
-import {getPhotos} from './data.js';
+import { createLoader } from './api.js';
 import { initEditPopup } from './form.js';
-import {thumbnailsInit} from './thumbnails.js';
+import { thumbnailsInit } from './thumbnails.js';
+import { createUploadErrorMessage, bodyElement } from './util.js';
 
-const photos = getPhotos();
-
-thumbnailsInit(photos);
-
-initEditPopup();
+createLoader((data) => {
+  thumbnailsInit(data);
+  initEditPopup();
+}, (err) => {
+  bodyElement.append(createUploadErrorMessage(err));
+});
