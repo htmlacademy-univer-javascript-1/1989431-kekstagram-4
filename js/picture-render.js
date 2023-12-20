@@ -42,7 +42,7 @@ const getCommentTemplate = ({avatar, name, message}) => `
             src="${avatar}"
             alt="${name}"
             width="35" height="35">
-        <p class="social__text">${message.join(' ')}</p>
+        <p class="social__text">${message}</p>
     </li>
 `;
 
