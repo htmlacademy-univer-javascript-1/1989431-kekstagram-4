@@ -1,4 +1,4 @@
-import {isEscapeKey} from './util.js';
+import { isEscapeKey, bodyElement } from './util.js';
 
 const COMMENTS_ADD_STEP = 5;
 const bigPicture = document.querySelector('.big-picture');
@@ -25,7 +25,7 @@ const onPopupKeydown = (evt) => {
 };
 
 function closePopup (){
-  document.querySelector('body').classList.remove('modal-open');
+  bodyElement.classList.remove('modal-open');
   bigPicture.classList.add('hidden');
 
   bigPictureCloseCross.removeEventListener('click',onPopupKeydown);

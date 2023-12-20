@@ -1,12 +1,13 @@
-import {isEscapeKey, isPicture} from './util.js';
+import { isEscapeKey, isPicture } from './util.js';
 import { initScale, resetScale } from './picture-scale.js';
-import {destroySlider, initSlider} from './picture-effects.js';
+import { destroySlider, initSlider } from './picture-effects.js';
 import { sendForm } from './form-send.js';
+import { bodyElement } from './util.js';
+
 
 const MAX_HASHTAG_LENGTH = 5;
 const ONE_VALID_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
 const MULTIPLE_VALID_HASHTAGS = /(?:^|\s)(#[a-zа-яё0-9]{1,19})(?=\s|$)/gi;
-const bodyElement = document.querySelector('.body');
 const inputUploadElement = bodyElement.querySelector('.img-upload__input');
 const overlayElement = bodyElement.querySelector('.img-upload__overlay');
 const cancelBtn = bodyElement.querySelector('.img-upload__cancel');
@@ -37,7 +38,9 @@ const clearInputs = () => {
   inputUploadElement.value = '';
   hashtagsInput.value = '';
   commentsInput.value = '';
-  if (pristineValidator){ pristineValidator.reset(); }
+  if (pristineValidator){
+    pristineValidator.destroy();
+  }
 };
 
 export function closeUploadForm (){

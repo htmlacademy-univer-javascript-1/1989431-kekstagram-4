@@ -1,9 +1,8 @@
 import { createSender } from './api.js';
-import { isEscapeKey } from './util.js';
+import { isEscapeKey, bodyElement } from './util.js';
 import { closeUploadForm, onDocumentKeyDown } from './form.js';
 
 const POPUP_STATUS_Z_INDEX = 2;
-const bodyElement = document.querySelector('.body');
 const imgUploadForm = bodyElement.querySelector('.img-upload__form');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
