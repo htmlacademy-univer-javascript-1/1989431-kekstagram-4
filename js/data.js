@@ -7,6 +7,8 @@ export const SCALE_STEP = 25;
 
 export const COMMENTS_ADD_STEP = 5;
 
+export const TIMOUT_DELAY = 500;
+
 export const ValidationErrorTexts = {
   MAX_HASHTAGS_COUNT : 'Нельзя указывать больше 5 хештегов',
   UNIQ_HASHTAGS : 'Хештеги не должны повторяться',

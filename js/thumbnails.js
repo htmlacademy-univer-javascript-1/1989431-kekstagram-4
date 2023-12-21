@@ -29,3 +29,8 @@ export const thumbnailsInit = (data) => {
     domPicturesCollection.addEventListener('click', onThumbnailsContainerClick);
   }
 };
+
+export const thumbnailsDestroy = () => {
+  const postPreviews = domPicturesCollection.querySelectorAll('.picture');
+  postPreviews.forEach((preview) => preview.remove());
+};
