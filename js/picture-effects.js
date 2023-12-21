@@ -7,7 +7,7 @@ const effectLevelValue = imgUploadOverlay.querySelector('.effect-level__value');
 const uploadImage = imgUploadOverlay.querySelector('.img-upload__preview').querySelector('img');
 const effectsListItems = imgUploadOverlay.querySelectorAll('.effects__radio');
 
-const resetFilterValue = () => {
+export const resetFilterValue = () => {
   uploadImage.style.filter = 'none';
   effectSliderWrap.classList.add('hidden');
 };

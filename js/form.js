@@ -1,6 +1,6 @@
 import { isEscapeKey, isPicture } from './util.js';
 import { initScale, resetScale } from './picture-scale.js';
-import { destroySlider, initSlider } from './picture-effects.js';
+import { destroySlider, initSlider, resetFilterValue } from './picture-effects.js';
 import { sendForm } from './form-send.js';
 import { bodyElement } from './util.js';
 import { ValidationErrorTexts } from './data.js';
@@ -13,6 +13,7 @@ const overlayElement = bodyElement.querySelector('.img-upload__overlay');
 const cancelBtn = bodyElement.querySelector('.img-upload__cancel');
 const hashtagsInput = bodyElement.querySelector('.text__hashtags');
 const commentsInput = bodyElement.querySelector('.text__description');
+const submitButton = bodyElement.querySelector('.img-upload__submit');
 const imgUploadForm = bodyElement.querySelector('.img-upload__form');
 let pristineValidator;
 
@@ -43,6 +44,14 @@ const clearInputs = () => {
   }
 };
 
+const lockSubmitButton = () => {
+  submitButton.disabled = true;
+};
+
+const unlockSubmitButton = () => {
+  submitButton.disabled = false;
+};
+
 export function closeUploadForm (){
   overlayElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
@@ -50,9 +59,12 @@ export function closeUploadForm (){
   document.removeEventListener('keydown', onDocumentKeyDown);
   imgUploadForm.removeEventListener('keydown', onInputEscKeydown);
   imgUploadForm.removeEventListener('submit', onImpUploadFormSubmit);
+  imgUploadForm.reset();
   clearInputs();
   resetScale();
   destroySlider();
+  resetFilterValue();
+  unlockSubmitButton();
 }
 
 export function onDocumentKeyDown(evt) {
@@ -102,6 +114,7 @@ function onImpUploadFormSubmit (evt) {
   pristineValidator.addValidator(commentsInput, validateComments, ValidationErrorTexts.MAX_COMMENT_LENGTH);
 
   if (pristineValidator.validate()){
+    lockSubmitButton();
     sendForm();
   }
 }

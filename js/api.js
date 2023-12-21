@@ -28,6 +28,7 @@ export const createSender = (body, onSuccess, onError) => fetch(
   `${BASE_URL}/`,
   {
     method : 'POST',
+    credentials : 'same-origin',
     body
   },
 )
@@ -35,7 +36,6 @@ export const createSender = (body, onSuccess, onError) => fetch(
     if (response.ok){
       return response.json;
     }
-
     throw new Error(`${response.status} ${response.statusText}`);
   })
   .then((data) => onSuccess(data))

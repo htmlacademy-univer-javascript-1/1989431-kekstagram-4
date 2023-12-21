@@ -24,9 +24,7 @@ const onErrorEscKeyDown = (evt) => {
 const showStatusMessage = (isSendSuccesfull) => {
   if (isSendSuccesfull) {
     popupSendStatus = successTemplate.cloneNode(true);
-    closeUploadForm();
-  }
-  else {
+  } else {
     popupSendStatus = errorTemplate.cloneNode(true);
     document.removeEventListener('keydown', onDocumentKeyDown);
     document.addEventListener('keydown', onErrorEscKeyDown);
@@ -38,6 +36,7 @@ const showStatusMessage = (isSendSuccesfull) => {
 
 const closeSendingForm = () => {
   closeStatusPopup();
+  closeUploadForm();
 };
 
 const onSuccessBtnClick = () => closeSendingForm();
