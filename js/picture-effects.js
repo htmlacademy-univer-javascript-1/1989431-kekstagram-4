@@ -1,12 +1,11 @@
 import { FilterParameter } from './util.js';
+import { bodyElement } from './util.js';
 
-const bodyElement = document.querySelector('.body');
 const effectSliderWrap = bodyElement.querySelector('.img-upload__effect-level');
 const effectLevelSlider = bodyElement.querySelector('.effect-level__slider');
 const effectLevelValue = bodyElement.querySelector('.effect-level__value');
 const uploadImage = bodyElement.querySelector('.img-upload__preview').querySelector('img');
 const effectsListItems = bodyElement.querySelectorAll('.effects__radio');
-
 
 const resetFilterValue = () => {
   uploadImage.style.filter = 'none';
@@ -53,4 +52,3 @@ export const destroySlider = () => {
     effect.removeEventListener('click', onEffectClick);
   });
 };
-

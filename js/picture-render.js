@@ -34,7 +34,6 @@ function closePopup (){
   commentsLoader.classList.remove('hidden');
 }
 
-
 const getCommentTemplate = ({avatar, name, message}) => `
     <li class="social__comment">
         <img
@@ -46,11 +45,9 @@ const getCommentTemplate = ({avatar, name, message}) => `
     </li>
 `;
 
-
 const updateCommentsCount = (count) => {
   commentsCurrentCount.textContent = count;
 };
-
 
 function onShowNextCommentsButtonClick (){
   showNextFiveComments();
@@ -79,7 +76,6 @@ const setupComments = (pictureById) => {
   }
 };
 
-
 function showNextFiveComments () {
   const currentCommentCount = commentsContainer.children.length;
 
@@ -99,7 +95,6 @@ const renderMainData = (pictureById) => {
   likesCount.textContent = pictureById.likes;
   socialCaption.textContent = pictureById.description;
 };
-
 
 export const renderBigPicture = (pictureById) => {
   renderMainData(pictureById);

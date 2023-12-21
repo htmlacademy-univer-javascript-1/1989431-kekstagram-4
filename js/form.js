@@ -4,11 +4,10 @@ import { destroySlider, initSlider } from './picture-effects.js';
 import { sendForm } from './form-send.js';
 import { bodyElement } from './util.js';
 
-
 const MAX_HASHTAG_LENGTH = 5;
 const ONE_VALID_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
 const MULTIPLE_VALID_HASHTAGS = /(?:^|\s)(#[a-zа-яё0-9]{1,19})(?=\s|$)/gi;
-const inputUploadElement = bodyElement.querySelector('.img-upload__input');
+const pictureUploadElement = bodyElement.querySelector('.img-upload__input');
 const overlayElement = bodyElement.querySelector('.img-upload__overlay');
 const cancelBtn = bodyElement.querySelector('.img-upload__cancel');
 const hashtagsInput = bodyElement.querySelector('.text__hashtags');
@@ -35,7 +34,7 @@ const openUploadForm = () => {
 };
 
 const clearInputs = () => {
-  inputUploadElement.value = '';
+  pictureUploadElement.value = '';
   hashtagsInput.value = '';
   commentsInput.value = '';
   if (pristineValidator){
@@ -106,7 +105,7 @@ function onImpUploadFormSubmit (evt) {
   }
 }
 
-const onInputUploadElementChange = (evt) => {
+const onPirctureUploadClick = (evt) => {
   if (isPicture(evt)){
     openUploadForm();
     initScale();
@@ -115,5 +114,5 @@ const onInputUploadElementChange = (evt) => {
 };
 
 export const initEditPopup = () => {
-  inputUploadElement.addEventListener('change', onInputUploadElementChange);
+  pictureUploadElement.addEventListener('change', onPirctureUploadClick);
 };

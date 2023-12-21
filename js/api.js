@@ -42,4 +42,3 @@ export const createSender = (body, onSuccess, onError) => fetch(
   .catch((err) => {
     onError(err);
   });
-
