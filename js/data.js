@@ -1,6 +1,18 @@
 import {shuffle, getRandomIntFromInterval} from './util.js';
 
 const COUNT_PHOTOS = 25;
+export const MIN_SCALE = 25;
+export const MAX_SCALE = 100;
+export const SCALE_STEP = 25;
+
+export const COMMENTS_ADD_STEP = 5;
+
+export const ValidationErrorTexts = {
+  MAX_HASHTAGS_COUNT : 'Нельзя указывать больше 5 хештегов',
+  UNIQ_HASHTAGS : 'Хештеги не должны повторяться',
+  INVALID_HASHTAG : 'Невалидный формат хештега',
+  MAX_COMMENT_LENGTH : 'Длина комментария должна быть меньше 140 символов'
+};
 
 const DESCRIPTIONS = [
   'Закат', 'Цветы', 'Море', 'Горы', 'Дружба', 'Дети', 'Лес', 'Город',
@@ -64,3 +76,4 @@ const getPhotoData = (_, id) => ({
 });
 
 export const getPhotos = () => Array.from({length : COUNT_PHOTOS}, getPhotoData);
+

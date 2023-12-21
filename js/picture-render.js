@@ -1,8 +1,8 @@
 import { isEscapeKey, bodyElement } from './util.js';
+import { COMMENTS_ADD_STEP } from './data.js';
 
-const COMMENTS_ADD_STEP = 5;
 const bigPicture = document.querySelector('.big-picture');
-const bigPictureCloseCross = bigPicture.querySelector('.big-picture__cancel');
+const bigPictureCloseBtn = bigPicture.querySelector('.big-picture__cancel');
 const commentsContainer = bigPicture.querySelector('.social__comments');
 const commentsLoader = document.querySelector('.social__comments-loader');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img');
@@ -11,7 +11,6 @@ const commentsCurrentCount = bigPicture.querySelector('.comments-current-count')
 const likesCount = bigPicture.querySelector('.likes-count');
 const socialCaption = bigPicture.querySelector('.social__caption');
 let pictureByIdComments;
-
 
 const onPopupClose = () => {
   closePopup();
@@ -28,7 +27,7 @@ function closePopup (){
   bodyElement.classList.remove('modal-open');
   bigPicture.classList.add('hidden');
 
-  bigPictureCloseCross.removeEventListener('click',onPopupKeydown);
+  bigPictureCloseBtn.removeEventListener('click',onPopupKeydown);
   commentsLoader.addEventListener('click', onShowNextCommentsButtonClick);
   document.removeEventListener('keydown', onPopupClose);
   commentsLoader.classList.remove('hidden');
@@ -102,8 +101,8 @@ export const renderBigPicture = (pictureById) => {
   setupComments(pictureById);
 
   bigPicture.classList.remove('hidden');
-  document.querySelector('body').classList.add('modal-open');
+  bodyElement.classList.add('modal-open');
 
   document.addEventListener('keydown', onPopupClose);
-  bigPictureCloseCross.addEventListener('click', onPopupClose);
+  bigPictureCloseBtn.addEventListener('click', onPopupClose);
 };

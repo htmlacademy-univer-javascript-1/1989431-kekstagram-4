@@ -1,11 +1,11 @@
 import { FilterParameter } from './util.js';
-import { bodyElement } from './util.js';
 
-const effectSliderWrap = bodyElement.querySelector('.img-upload__effect-level');
-const effectLevelSlider = bodyElement.querySelector('.effect-level__slider');
-const effectLevelValue = bodyElement.querySelector('.effect-level__value');
-const uploadImage = bodyElement.querySelector('.img-upload__preview').querySelector('img');
-const effectsListItems = bodyElement.querySelectorAll('.effects__radio');
+const imgUploadOverlay = document.querySelector('.img-upload__overlay');
+const effectSliderWrap = imgUploadOverlay.querySelector('.img-upload__effect-level');
+const effectLevelSlider = imgUploadOverlay.querySelector('.effect-level__slider');
+const effectLevelValue = imgUploadOverlay.querySelector('.effect-level__value');
+const uploadImage = imgUploadOverlay.querySelector('.img-upload__preview').querySelector('img');
+const effectsListItems = imgUploadOverlay.querySelectorAll('.effects__radio');
 
 const resetFilterValue = () => {
   uploadImage.style.filter = 'none';

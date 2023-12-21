@@ -3,6 +3,7 @@ import { initScale, resetScale } from './picture-scale.js';
 import { destroySlider, initSlider } from './picture-effects.js';
 import { sendForm } from './form-send.js';
 import { bodyElement } from './util.js';
+import { ValidationErrorTexts } from './data.js';
 
 const MAX_HASHTAG_LENGTH = 5;
 const ONE_VALID_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -95,17 +96,17 @@ function onImpUploadFormSubmit (evt) {
       errorTextParent : 'img-upload__field-wrapper',
       errorTextClass : 'img-upload__field-wrapper__error'
     });
-  pristineValidator.addValidator(hashtagsInput, validateHashtagsLength,'Нельзя указывать больше 5 хештегов');
-  pristineValidator.addValidator(hashtagsInput, validateHashtagUniqness,'Хештеги не должны повторяться');
-  pristineValidator.addValidator(hashtagsInput, validateHashtagFormat,'Невалидный формат хештега');
-  pristineValidator.addValidator(commentsInput, validateComments, 'Длина комментария должна быть меньше 140 символов');
+  pristineValidator.addValidator(hashtagsInput, validateHashtagsLength, ValidationErrorTexts.MAX_HASHTAGS_COUNT);
+  pristineValidator.addValidator(hashtagsInput, validateHashtagUniqness, ValidationErrorTexts.UNIQ_HASHTAGS);
+  pristineValidator.addValidator(hashtagsInput, validateHashtagFormat, ValidationErrorTexts.INVALID_HASHTAG);
+  pristineValidator.addValidator(commentsInput, validateComments, ValidationErrorTexts.MAX_COMMENT_LENGTH);
 
   if (pristineValidator.validate()){
     sendForm();
   }
 }
 
-const onPirctureUploadClick = (evt) => {
+const onPictureUploadClick = (evt) => {
   if (isPicture(evt)){
     openUploadForm();
     initScale();
@@ -114,5 +115,5 @@ const onPirctureUploadClick = (evt) => {
 };
 
 export const initEditPopup = () => {
-  pictureUploadElement.addEventListener('change', onPirctureUploadClick);
+  pictureUploadElement.addEventListener('change', onPictureUploadClick);
 };
