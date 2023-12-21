@@ -46,6 +46,7 @@ export const initScale = () => {
 
 export const resetScale = () => {
   currentScale = MAX_SCALE;
+  uploadImage.style.transform = `scale(${currentScale / MAX_SCALE})`;
   smallerScaleButton.removeEventListener('click', onSmallerScaleButtonClick);
   biggerScaleButton.removeEventListener('click', onBiggerScaleButtonClick);
   scaleControlValue.removeEventListener('input', onScaleControlValueInput);
