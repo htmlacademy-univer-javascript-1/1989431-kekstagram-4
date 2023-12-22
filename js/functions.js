@@ -24,7 +24,7 @@ isPalindrome('Кекс'); //false
 highlightNumber('2023 год'); //2023
 highlightNumber('1 кефир, 0.5 батона'); //105
 highlightNumber('а я томат'); //NaN
-highlightNumber(1.5); //15
+highlightNumber(1.5); //
 
 
 const SECONDS_IN_MINUTE = 60;
