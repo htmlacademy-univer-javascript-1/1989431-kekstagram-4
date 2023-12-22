@@ -1,4 +1,5 @@
 import { ErrorText } from './api.js';
+import { TIMOUT_DELAY } from './data.js';
 
 export const bodyElement = document.querySelector('.body');
 
@@ -63,3 +64,13 @@ export const createUploadErrorMessage = (err) => {
   uploadErrorMessage.textContent = `${ErrorText.GET_DATA} ${err}`;
   return uploadErrorMessage;
 };
+
+export const sortMiniaturessByDescdendingComments = (currentPicture, nextPicture) => nextPicture.comments.length - currentPicture.comments.length;
+
+export function debounce (callback) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), TIMOUT_DELAY);
+  };
+}
