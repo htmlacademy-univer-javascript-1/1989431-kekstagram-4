@@ -4,6 +4,7 @@ const COUNT_PHOTOS = 25;
 export const MIN_SCALE = 25;
 export const MAX_SCALE = 100;
 export const SCALE_STEP = 25;
+export const DEFAULT_SCALE = 1;
 
 export const COMMENTS_ADD_STEP = 5;
 

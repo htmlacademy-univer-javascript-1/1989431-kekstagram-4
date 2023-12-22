@@ -1,8 +1,7 @@
-import { isEscapeKey, isPicture } from './util.js';
+import { isEscapeKey, isPicture, bodyElement } from './util.js';
 import { initScale, resetScale } from './picture-scale.js';
 import { destroySlider, initSlider, resetFilterValue } from './picture-effects.js';
 import { sendForm } from './form-send.js';
-import { bodyElement } from './util.js';
 import { ValidationErrorTexts } from './data.js';
 
 const MAX_HASHTAG_LENGTH = 5;
@@ -15,6 +14,9 @@ const hashtagsInput = bodyElement.querySelector('.text__hashtags');
 const commentsInput = bodyElement.querySelector('.text__description');
 const submitButton = bodyElement.querySelector('.img-upload__submit');
 const imgUploadForm = bodyElement.querySelector('.img-upload__form');
+const uploadButton = bodyElement.querySelector('#upload-file');
+const uploadFormMainImage = overlayElement.querySelector('.img-upload__preview img');
+const effectsPreview = overlayElement.querySelectorAll('.effects__item .effects__preview');
 let pristineValidator;
 
 const onInputEscKeydown = (evt) => {
@@ -26,7 +28,16 @@ const onInputEscKeydown = (evt) => {
   }
 };
 
+const formPictureUpload = () => {
+  const picture = uploadButton.files[0];
+  uploadFormMainImage.src = URL.createObjectURL(picture);
+  effectsPreview.forEach((effectPicture) => {
+    effectPicture.style.backgroundImage = `url('${uploadFormMainImage.src}')`;
+  });
+};
+
 const openUploadForm = () => {
+  formPictureUpload();
   overlayElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   imgUploadForm.addEventListener('keydown', onInputEscKeydown);

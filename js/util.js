@@ -65,7 +65,7 @@ export const createUploadErrorMessage = (err) => {
   return uploadErrorMessage;
 };
 
-export const sortMiniaturessByDescdendingComments = (currentPicture, nextPicture) => nextPicture.comments.length - currentPicture.comments.length;
+export const sortMiniaturesByDescdendingComments = (currentPicture, nextPicture) => nextPicture.comments.length - currentPicture.comments.length;
 
 export function debounce (callback) {
   let timeoutId;
