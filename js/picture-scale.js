@@ -1,5 +1,5 @@
 import { bodyElement } from './util.js';
-import { MIN_SCALE, MAX_SCALE, SCALE_STEP } from './data.js';
+import { MIN_SCALE, MAX_SCALE, SCALE_STEP, DEFAULT_SCALE } from './data.js';
 
 const scaleControlValue = bodyElement.querySelector('.scale__control--value');
 const uploadImage = bodyElement.querySelector('.img-upload__preview').querySelector('img');
@@ -46,7 +46,7 @@ export const initScale = () => {
 
 export const resetScale = () => {
   currentScale = MAX_SCALE;
-  uploadImage.style.transform = `scale(${currentScale / MAX_SCALE})`;
+  uploadImage.style.transform = `scale(${DEFAULT_SCALE})`;
   smallerScaleButton.removeEventListener('click', onSmallerScaleButtonClick);
   biggerScaleButton.removeEventListener('click', onBiggerScaleButtonClick);
   scaleControlValue.removeEventListener('input', onScaleControlValueInput);

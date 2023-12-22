@@ -1,5 +1,5 @@
 import { thumbnailsInit, thumbnailsDestroy } from './thumbnails.js';
-import { shuffle, debounce, sortMiniaturessByDescdendingComments } from './util.js';
+import { shuffle, debounce, sortMiniaturesByDescdendingComments } from './util.js';
 
 const HIDDEN_CONTAINER_CLASS = 'img-filters--inactive';
 const ACTIVE_FILTER_CLASS = 'img-filters__button--active';
@@ -20,7 +20,7 @@ let activeFilter = Filter.DEFAULT;
 const filterFinction = {
   [Filter.DEFAULT]: () => miniatures,
   [Filter.RANDOM]: () => shuffle(miniatures.slice()).slice(0, MAX_COUNT_DISCUSSES_CARD),
-  [Filter.DISCUSSED]: () => miniatures.slice().sort(sortMiniaturessByDescdendingComments)
+  [Filter.DISCUSSED]: () => miniatures.slice().sort(sortMiniaturesByDescdendingComments)
 };
 
 const onFiltersFormClick = (evt) =>{
