@@ -1,44 +1,31 @@
 const BASE_URL = 'https://29.javascript.pages.academy/kekstagram';
-
-export const ErrorText = {
-  GET_DATA : 'Не удалось загрузить данные. Попробуйте обновить страницу.',
-  SEND_DATA : 'Не удалось отправить форму. Попробуйте еще раз.'
+const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
+};
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
+};
+const ErrorText = {
+  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
+  SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз',
 };
 
-export const createLoader = (onSuccess, onError) => fetch(
-  `${BASE_URL}/data`,
-  {
-    method : 'GET',
-    credentials : 'same-origin',
-  },
-)
-  .then((response) => {
-    if (response.ok){
+const load = (route, errorText, method = Method.GET, body = null) =>
+  fetch(`${BASE_URL}${route}`, {method, body})
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error();
+      }
       return response.json();
-    }
+    })
+    .catch(() => {
+      throw new Error(errorText);
+    });
 
-    throw new Error(`${response.status} ${response.statusText}`);
-  })
-  .then((data) => onSuccess(data))
-  .catch((err) => {
-    onError(err);
-  });
+const loadData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
 
-export const createSender = (body, onSuccess, onError) => fetch(
-  `${BASE_URL}/`,
-  {
-    method : 'POST',
-    credentials : 'same-origin',
-    body
-  },
-)
-  .then((response) => {
-    if (response.ok){
-      return response.json;
-    }
-    throw new Error(`${response.status} ${response.statusText}`);
-  })
-  .then((data) => onSuccess(data))
-  .catch((err) => {
-    onError(err);
-  });
+const sendData = (body) => load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body);
+
+export {loadData, sendData};

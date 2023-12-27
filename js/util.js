@@ -1,9 +1,7 @@
-import { ErrorText } from './api.js';
-import { TIMOUT_DELAY } from './data.js';
+const TIMOUT_DELAY = 500;
+const MESSAGE_SHOW_TIME = 5000;
 
-export const bodyElement = document.querySelector('.body');
-
-export const shuffle = (arr) => {
+const shuffle = (arr) => {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -11,30 +9,9 @@ export const shuffle = (arr) => {
   return arr;
 };
 
-export const getRandomIntFromInterval = (minNum, maxNum) => {
-  minNum = Math.ceil(Math.min(minNum, maxNum));
-  maxNum = Math.floor(Math.max(minNum, maxNum));
-  return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
-};
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export const isEscapeKey = (evt) => evt.key === 'Escape';
-
-export const isPicture = (evt) => {
-  const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-
-  const selectedFile = evt.target.files[0];
-
-  if (!selectedFile) {
-    return false;
-  }
-
-  const fileName = selectedFile.name;
-  const fileExtension = fileName.split('.').pop().toLowerCase();
-
-  return allowedExtensions.includes(fileExtension);
-};
-
-export const FilterParameter = {
+const FiltersParameters = {
   'none' : {name : 'none', filter : '', units : '',
     options : {range : {min : 0, max : 100}, step : 1, start : 100}},
   'chrome' : {name : 'chrome', filter : 'grayscale', units : '',
@@ -49,28 +26,38 @@ export const FilterParameter = {
     options : {range : {min : 1, max : 3}, step : 0.1, start : 3}},
 };
 
-export const createUploadErrorMessage = (err) => {
-  const uploadErrorMessage = document.createElement('div');
-  uploadErrorMessage.style.position = 'absolute';
-  uploadErrorMessage.style.left = 0;
-  uploadErrorMessage.style.top = 0;
-  uploadErrorMessage.style.width = '60%';
-  uploadErrorMessage.style.marginLeft = '20%';
-  uploadErrorMessage.style.borderRadius = '20px';
-  uploadErrorMessage.style.textAlign = 'center';
-  uploadErrorMessage.style.fontSize = '24px';
-  uploadErrorMessage.style.backgroundColor = 'red';
-  uploadErrorMessage.style.padding = '20px 10px';
-  uploadErrorMessage.textContent = `${ErrorText.GET_DATA} ${err}`;
-  return uploadErrorMessage;
+const showUploadErrorMessage = (message) => {
+  const uploadErrorMessageContainer = document.createElement('div');
+
+  uploadErrorMessageContainer.style.position = 'absolute';
+  uploadErrorMessageContainer.style.left = 0;
+  uploadErrorMessageContainer.style.top = 0;
+  uploadErrorMessageContainer.style.width = '60%';
+  uploadErrorMessageContainer.style.marginLeft = '20%';
+  uploadErrorMessageContainer.style.borderRadius = '20px';
+  uploadErrorMessageContainer.style.textAlign = 'center';
+  uploadErrorMessageContainer.style.fontSize = '24px';
+  uploadErrorMessageContainer.style.backgroundColor = 'red';
+  uploadErrorMessageContainer.style.padding = '20px 10px';
+
+  uploadErrorMessageContainer.textContent = message;
+
+  document.body.append(uploadErrorMessageContainer);
+
+  setTimeout(() => {
+    uploadErrorMessageContainer.remove();
+  }, MESSAGE_SHOW_TIME);
 };
 
-export const sortMiniaturesByDescdendingComments = (currentPicture, nextPicture) => nextPicture.comments.length - currentPicture.comments.length;
+const sortMiniaturesByDescendingComments = (currentPicture, nextPicture) => nextPicture.comments.length - currentPicture.comments.length;
 
-export function debounce (callback) {
+const debounce = (callback) => {
   let timeoutId;
+
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), TIMOUT_DELAY);
   };
-}
+};
+
+export {debounce, sortMiniaturesByDescendingComments, showUploadErrorMessage, FiltersParameters, isEscapeKey, shuffle};

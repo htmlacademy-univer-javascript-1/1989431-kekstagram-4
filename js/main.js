@@ -1,11 +1,16 @@
-import { createLoader } from './api.js';
-import { initEditPopup } from './form.js';
-import { createUploadErrorMessage, bodyElement } from './util.js';
+import { loadData } from './api.js';
+import { showUploadErrorMessage } from './util.js';
 import { initFilters } from './filters.js';
+import { setUserFormSubmit } from './form.js';
 
-createLoader((data) => {
-  initFilters(data);
-  initEditPopup();
-}, (err) => {
-  bodyElement.append(createUploadErrorMessage(err));
-});
+loadData()
+  .then((data) => {
+    initFilters(data);
+  })
+  .catch(
+    (err) => {
+      showUploadErrorMessage(err.message);
+    }
+  );
+
+setUserFormSubmit();
