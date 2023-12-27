@@ -1,7 +1,6 @@
-import { renderBigPicture } from './picture-render.js';
+import { openBigPicturePopup } from './picture-render.js';
 
-const domPicturesCollection = document.querySelector('.pictures');
-
+const thumbnailsContainer = document.querySelector('.pictures');
 let pictures = null;
 const PICTURE_SELECTOR = '.picture';
 
@@ -18,19 +17,21 @@ const onThumbnailsContainerClick = (evt) => {
   if (targetElement){
     const id = targetElement.dataset.id;
     const [pictureById] = pictures.filter((picture) => picture.id === +id);
-    renderBigPicture(pictureById);
+    openBigPicturePopup(pictureById);
   }
 };
 
-export const thumbnailsInit = (data) => {
+const thumbnailsInit = (data) => {
   pictures = data.slice();
   if (pictures) {
-    domPicturesCollection.insertAdjacentHTML('afterbegin', pictures.map((element) => getPictureTemplate(element)).join(''));
-    domPicturesCollection.addEventListener('click', onThumbnailsContainerClick);
+    thumbnailsContainer.insertAdjacentHTML('afterbegin', pictures.map((element) => getPictureTemplate(element)).join(''));
+    thumbnailsContainer.addEventListener('click', onThumbnailsContainerClick);
   }
 };
 
-export const thumbnailsDestroy = () => {
-  const postPreviews = domPicturesCollection.querySelectorAll('.picture');
+const clearThumbnailsContainer = () => {
+  const postPreviews = thumbnailsContainer.querySelectorAll('.picture');
   postPreviews.forEach((preview) => preview.remove());
 };
+
+export {thumbnailsInit, clearThumbnailsContainer};

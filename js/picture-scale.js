@@ -1,53 +1,39 @@
-import { bodyElement } from './util.js';
-import { MIN_SCALE, MAX_SCALE, SCALE_STEP, DEFAULT_SCALE } from './data.js';
+const body = document.querySelector('body');
 
-const scaleControlValue = bodyElement.querySelector('.scale__control--value');
-const uploadImage = bodyElement.querySelector('.img-upload__preview').querySelector('img');
-const smallerScaleButton = bodyElement.querySelector('.scale__control--smaller');
-const biggerScaleButton = bodyElement.querySelector('.scale__control--bigger');
+const scaleControlValue = body.querySelector('.scale__control--value');
+const scaleControlSmallerButton = body.querySelector('.scale__control--smaller');
+const scaleControlBiggerButton = body.querySelector('.scale__control--bigger');
 
-let currentScale = MAX_SCALE;
+const imgUploadPreview = body.querySelector('.img-upload__preview');
+
+const MIN_SCALE_VALUE = 25;
+const MAX_SCALE_VALUE = 100;
+const SCALE_VALUE_STEP = 25;
+
+let scaleValue = Number(scaleControlValue.value.slice(0, -1));
 
 const updateScaleStyles = () => {
-  const scaleValue = currentScale / MAX_SCALE;
-  uploadImage.style.transform = `scale(${scaleValue})`;
+  scaleControlValue.value = `${scaleValue}%`;
+  imgUploadPreview.style.transform = `scale(${scaleValue / 100})`;
 };
 
-const onSmallerScaleButtonClick = () => {
-  if (currentScale > MIN_SCALE) {
-    currentScale -= SCALE_STEP;
-    scaleControlValue.value = `${currentScale}%`;
+const resetScale = () => {
+  scaleControlValue.value = '100%';
+  scaleValue = 100;
+};
+
+scaleControlSmallerButton.addEventListener('click', () => {
+  if (scaleValue > MIN_SCALE_VALUE) {
+    scaleValue -= SCALE_VALUE_STEP;
     updateScaleStyles();
   }
-};
+});
 
-const onBiggerScaleButtonClick = () => {
-  if (currentScale < MAX_SCALE) {
-    currentScale += SCALE_STEP;
-    scaleControlValue.value = `${currentScale}%`;
+scaleControlBiggerButton.addEventListener('click', () => {
+  if (scaleValue < MAX_SCALE_VALUE) {
+    scaleValue += SCALE_VALUE_STEP;
     updateScaleStyles();
   }
-};
+});
 
-const onScaleControlValueInput = () => {
-  const inputValue = parseInt(scaleControlValue.value, 10);
-  if (!isNaN(inputValue) && inputValue >= MIN_SCALE && inputValue <= MAX_SCALE) {
-    currentScale = inputValue;
-    updateScaleStyles();
-  }
-};
-
-export const initScale = () => {
-  scaleControlValue.value = `${currentScale}%`;
-  smallerScaleButton.addEventListener('click', onSmallerScaleButtonClick);
-  biggerScaleButton.addEventListener('click', onBiggerScaleButtonClick);
-  scaleControlValue.addEventListener('input', onScaleControlValueInput);
-};
-
-export const resetScale = () => {
-  currentScale = MAX_SCALE;
-  uploadImage.style.transform = `scale(${DEFAULT_SCALE})`;
-  smallerScaleButton.removeEventListener('click', onSmallerScaleButtonClick);
-  biggerScaleButton.removeEventListener('click', onBiggerScaleButtonClick);
-  scaleControlValue.removeEventListener('input', onScaleControlValueInput);
-};
+export { updateScaleStyles, resetScale};

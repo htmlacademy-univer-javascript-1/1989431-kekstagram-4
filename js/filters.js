@@ -1,9 +1,9 @@
-import { thumbnailsInit, thumbnailsDestroy } from './thumbnails.js';
-import { shuffle, debounce, sortMiniaturesByDescdendingComments } from './util.js';
+import { thumbnailsInit, clearThumbnailsContainer } from './thumbnails.js';
+import { shuffle, debounce, sortMiniaturesByDescendingComments } from './util.js';
 
 const HIDDEN_CONTAINER_CLASS = 'img-filters--inactive';
 const ACTIVE_FILTER_CLASS = 'img-filters__button--active';
-const MAX_COUNT_DISCUSSES_CARD = 10;
+const MAX_COUNT_RANDOM_CARD = 10;
 
 const Filter = {
   DEFAULT: 'filter-default',
@@ -14,13 +14,13 @@ const Filter = {
 const filtersContainer = document.querySelector('.img-filters');
 const filtersForm = filtersContainer.querySelector('.img-filters__form');
 
-let miniatures = null;
+let thumbnails = null;
 let activeFilter = Filter.DEFAULT;
 
-const filterFinction = {
-  [Filter.DEFAULT]: () => miniatures,
-  [Filter.RANDOM]: () => shuffle(miniatures.slice()).slice(0, MAX_COUNT_DISCUSSES_CARD),
-  [Filter.DISCUSSED]: () => miniatures.slice().sort(sortMiniaturesByDescdendingComments)
+const setFilter = {
+  [Filter.DEFAULT]: () => thumbnails,
+  [Filter.RANDOM]: () => shuffle(thumbnails.slice()).slice(0, MAX_COUNT_RANDOM_CARD),
+  [Filter.DISCUSSED]: () => thumbnails.slice().sort(sortMiniaturesByDescendingComments)
 };
 
 const onFiltersFormClick = (evt) =>{
@@ -30,14 +30,16 @@ const onFiltersFormClick = (evt) =>{
     filtersForm.querySelector(`#${activeFilter}`).classList.remove(ACTIVE_FILTER_CLASS);
     evt.target.classList.add(ACTIVE_FILTER_CLASS);
     activeFilter = id;
-    thumbnailsDestroy();
-    thumbnailsInit(filterFinction[id]());
+    clearThumbnailsContainer();
+    thumbnailsInit(setFilter[id]());
   }
 };
 
-export const initFilters = (data) =>{
-  miniatures = data.slice();
+const initFilters = (data) =>{
+  thumbnails = data.slice();
   filtersContainer.classList.remove(HIDDEN_CONTAINER_CLASS);
   filtersForm.addEventListener('click', debounce(onFiltersFormClick));
-  thumbnailsInit(miniatures);
+  thumbnailsInit(thumbnails);
 };
+
+export {initFilters};
