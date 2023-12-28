@@ -71,8 +71,11 @@ const updateCommentsDisplay = (comments, count) => {
 const showNextComments = (comments, step) => {
   const visibleComments = comments.slice(0, step);
   updateCommentsDisplay(visibleComments, visibleComments.length);
-  commentsLoader.addEventListener('click', showNextFiveComments);
 };
+
+commentsLoader.addEventListener('click', () => {
+  showNextFiveComments();
+});
 
 function setupComments (pictureById) {
   pictureByIdComments = pictureById.comments;

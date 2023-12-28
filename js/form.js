@@ -47,7 +47,6 @@ function openUploadOverlay() {
   body.classList.add('modal-open');
 
   document.addEventListener('keydown', onFormKeydown);
-  submitImgUploadButton.removeAttribute('disabled');
 }
 
 function closeUploadOverlay() {
@@ -100,6 +99,7 @@ function closeMessage (messageType) {
 
   document.removeEventListener('keydown', onMessageKeydown(messageType));
   document.addEventListener('keydown', onFormKeydown);
+  submitImgUploadButton.removeAttribute('disabled');
 }
 
 successButton.addEventListener('click', () => {

@@ -4,7 +4,7 @@ const scaleControlValue = body.querySelector('.scale__control--value');
 const scaleControlSmallerButton = body.querySelector('.scale__control--smaller');
 const scaleControlBiggerButton = body.querySelector('.scale__control--bigger');
 
-const imgUploadPreview = body.querySelector('.img-upload__preview');
+const imgUploadPreview = body.querySelector('.img-upload__preview').querySelector('img');
 
 const MIN_SCALE_VALUE = 25;
 const MAX_SCALE_VALUE = 100;
